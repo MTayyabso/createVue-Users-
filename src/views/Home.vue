@@ -6,12 +6,7 @@ import UserForm from '../components/UserForm.vue';
 const { users, search, addUser, updateUser, deleteUser } = useUsers();
 
 
-const editingUser = ref(null);
 
-
-const edit = (user) => {
-    editingUser.value = { ...user };
-};
 </script>
 <template>
     <div class="max-w-3xl mx-auto space-y-6">
@@ -21,11 +16,9 @@ const edit = (user) => {
 
 
 
-        <!-- Conditional Form -->
-        <UserForm v-if="editingUser" :user="editingUser"
-            :onSave="(userData) => { updateUser(userData); editingUser = null; }" />
 
-        <UserForm v-else :onSave="addUser" />
+
+        <UserForm :onSave="addUser" />
 
 
         <!-- User List  -->
@@ -36,10 +29,11 @@ const edit = (user) => {
                     {{ user.name }}
                 </router-link>
                 <div class="space-x-2">
-                    <button @click="edit(user)"
-                        class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded transition">
-                        Edit
-                    </button>
+                    <router-link :to="`/edit/${user.id}`">
+                        <button class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded transition">
+                            Edit
+                        </button>
+                    </router-link>
                     <button @click="deleteUser(user.id)"
                         class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition">
                         Delete
