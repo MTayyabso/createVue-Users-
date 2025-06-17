@@ -19,8 +19,14 @@ const edit = (user) => {
         <input v-model="search" placeholder="Search users..."
             class="w-full px-4 py-2 border border-gray-300 rounded dark:bg-gray-800 dark:border-gray-600" />
 
-        <!-- Add New User -->
-        <UserForm @save="addUser" />
+
+
+        <!-- Conditional Form -->
+        <UserForm v-if="editingUser" :user="editingUser"
+            :onSave="(userData) => { updateUser(userData); editingUser = null; }" />
+
+        <UserForm v-else :onSave="addUser" />
+
 
         <!-- User List  -->
         <transition-group name="fade" tag="ul" class="space-y-4">
@@ -42,8 +48,7 @@ const edit = (user) => {
             </li>
         </transition-group>
 
-        <!-- Edit Form -->
-        <UserForm v-if="editingUser" :user="editingUser" @save="updateUser" />
+
     </div>
 </template>
 
